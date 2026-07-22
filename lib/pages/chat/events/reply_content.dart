@@ -5,6 +5,7 @@
 
 import 'package:fluffychat/l10n/l10n.dart';
 import 'package:fluffychat/utils/matrix_sdk_extensions/matrix_locals.dart';
+import 'package:fluffychat/utils/text_direction_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 
@@ -78,16 +79,21 @@ class ReplyContent extends StatelessWidget {
                     );
                   },
                 ),
-                Text(
-                  displayEvent
-                      .calcLocalizedBodyFallback(
-                        MatrixLocals(L10n.of(context)),
-                        withSenderNamePrefix: false,
-                        hideReply: true,
-                        plaintextBody: true,
-                      )
-                      .trim()
-                      .replaceAll('\n', ' '),
+                Builder(
+                  builder: (context) {
+                    final body = displayEvent
+                        .calcLocalizedBodyFallback(
+                          MatrixLocals(L10n.of(context)),
+                          withSenderNamePrefix: false,
+                          hideReply: true,
+                          plaintextBody: true,
+                        )
+                        .trim()
+                        .replaceAll('\n', ' ');
+                    return Text(
+                  body,
+                  textDirection: body.textDirectionOf(context),
+                  textAlign: TextAlign.start,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(
@@ -98,6 +104,8 @@ class ReplyContent extends StatelessWidget {
                         : theme.colorScheme.onSurface,
                     fontSize: fontSize,
                   ),
+                    );
+                  },
                 ),
               ],
             ),
