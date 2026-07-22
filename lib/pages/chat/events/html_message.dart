@@ -9,6 +9,7 @@ import 'package:fluffychat/config/themes.dart';
 import 'package:fluffychat/l10n/l10n.dart';
 import 'package:fluffychat/utils/code_highlight_theme.dart';
 import 'package:fluffychat/utils/event_checkbox_extension.dart';
+import 'package:fluffychat/utils/text_direction_extension.dart';
 import 'package:fluffychat/widgets/avatar.dart';
 import 'package:fluffychat/widgets/future_loading_dialog.dart';
 import 'package:fluffychat/widgets/mxc_image.dart';
@@ -589,17 +590,23 @@ class HtmlMessage extends StatelessWidget {
     final maxLines = configuredMaxLines <= 0 ? null : configuredMaxLines;
     final span = _renderHtml(element, context);
     final style = TextStyle(fontSize: fontSize, color: textColor);
+    final plainText = element.text;
+
+    // Derive the base paragraph direction from the message itself instead of
+    // the app locale, so that mixed RTL/LTR messages are not reordered.
+    final textDirection = plainText.textDirectionOf(context);
 
     if (maxLines == null) {
       return Text.rich(
         span,
         style: style,
+        textDirection: textDirection,
+        textAlign: TextAlign.start,
         selectionColor: textColor.withAlpha(128),
       );
     }
 
     // Heuristic: if plain text has enough newlines or length, it will overflow.
-    final plainText = element.text;
     final lineCount = '\n'.allMatches(plainText).length + 1;
     final likelyOverflows =
         lineCount > maxLines || plainText.length > maxLines * 50;
@@ -608,6 +615,8 @@ class HtmlMessage extends StatelessWidget {
       return Text.rich(
         span,
         style: style,
+        textDirection: textDirection,
+        textAlign: TextAlign.start,
         selectionColor: textColor.withAlpha(128),
       );
     }
@@ -619,6 +628,7 @@ class HtmlMessage extends StatelessWidget {
       textColor: textColor,
       linkColor: linkStyle.color ?? textColor,
       fontSize: fontSize,
+      textDirection: textDirection,
     );
   }
 }
@@ -630,6 +640,7 @@ class _CollapsibleText extends StatefulWidget {
   final Color textColor;
   final Color linkColor;
   final double fontSize;
+  final TextDirection textDirection;
 
   const _CollapsibleText({
     required this.span,
@@ -638,6 +649,7 @@ class _CollapsibleText extends StatefulWidget {
     required this.textColor,
     required this.linkColor,
     required this.fontSize,
+    required this.textDirection,
   });
 
   @override
@@ -650,31 +662,40 @@ class _CollapsibleTextState extends State<_CollapsibleText> {
   @override
   Widget build(BuildContext context) {
     final l10n = L10n.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        AnimatedSize(
-          duration: FluffyThemes.animationDuration,
-          curve: FluffyThemes.animationCurve,
-          alignment: Alignment.topLeft,
-          child: Text.rich(
-            widget.span,
-            style: widget.style,
-            maxLines: _expanded ? null : widget.maxLines,
-            overflow: _expanded ? TextOverflow.visible : TextOverflow.ellipsis,
-            selectionColor: widget.textColor.withAlpha(128),
+    return Directionality(
+      textDirection: widget.textDirection,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AnimatedSize(
+            duration: FluffyThemes.animationDuration,
+            curve: FluffyThemes.animationCurve,
+            alignment: Alignment.topLeft,
+            child: Text.rich(
+              widget.span,
+              style: widget.style,
+              textDirection: widget.textDirection,
+              textAlign: TextAlign.start,
+              maxLines: _expanded ? null : widget.maxLines,
+              overflow: _expanded
+                  ? TextOverflow.visible
+                  : TextOverflow.ellipsis,
+              selectionColor: widget.textColor.withAlpha(128),
+            ),
           ),
-        ),
-        Center(
-          child: TextButton.icon(
-            onPressed: () => setState(() => _expanded = !_expanded),
-            style: TextButton.styleFrom(foregroundColor: widget.linkColor),
-            icon: Icon(_expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
-            label: Text(_expanded ? l10n.showLess : l10n.showMore),
+          Center(
+            child: TextButton.icon(
+              onPressed: () => setState(() => _expanded = !_expanded),
+              style: TextButton.styleFrom(foregroundColor: widget.linkColor),
+              icon: Icon(
+                _expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+              ),
+              label: Text(_expanded ? l10n.showLess : l10n.showMore),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
