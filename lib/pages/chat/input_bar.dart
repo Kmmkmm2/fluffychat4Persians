@@ -5,6 +5,7 @@
 
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:fluffychat/config/app_config.dart';
+import 'package:fluffychat/utils/text_direction_extension.dart';
 import 'package:fluffychat/config/setting_keys.dart';
 import 'package:fluffychat/l10n/l10n.dart';
 import 'package:fluffychat/pages/chat/trust_user_key_dialog.dart';
@@ -398,7 +399,13 @@ class InputBar extends StatelessWidget {
         data: MediaQuery.of(context).copyWith(
           textScaler: TextScaler.linear(AppSettings.fontSizeFactor.value),
         ),
-        child: TextField(
+        // Rebuild on every edit so the base direction follows what is being
+        // typed instead of the app locale.
+        child: ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) => TextField(
+          textDirection: controller.text.detectedTextDirection,
+          textAlign: TextAlign.start,
           controller: controller,
           focusNode: focusNode,
           readOnly: readOnly,
@@ -446,6 +453,7 @@ class InputBar extends StatelessWidget {
             onChanged!(text);
           },
           textCapitalization: TextCapitalization.sentences,
+          ),
         ),
       ),
       optionsViewBuilder: (c, onSelected, s) {
