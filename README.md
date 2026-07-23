@@ -4,7 +4,11 @@ with proper bidirectional (RTL/LTR) text rendering.
 This is not the official FluffyChat. It is not affiliated with or
 endorsed by the FluffyChat project or its maintainers. Please do not
 report bugs from this build to the upstream project.
+
+
 فارسی
+
+
 فلافی‌چت یک کلاینت متن‌باز و امن برای شبکه Matrix است. اما در نمایش
 جمله‌هایی که فارسی و انگلیسی را با هم ترکیب می‌کنند مشکل دارد و ترتیب
 کلمات به هم می‌ریزد.
@@ -20,7 +24,11 @@ report bugs from this build to the upstream project.
 فایل APK را از بخش Releases بگیرید.
 هنگام نصب، اندروید هشدار می‌دهد که منبع برنامه ناشناس است. این برای
 همه برنامه‌هایی که خارج از Google Play نصب می‌شوند طبیعی است.
+
+
 English
+
+
 What is different from upstream
 Messages that mix a right-to-left script (Persian, Arabic, Hebrew) with
 latin words are reordered by the Unicode bidi algorithm, because Flutter
