@@ -1,142 +1,56 @@
-<!--
-SPDX-FileCopyrightText: 2019-Present Christian Kußowski
-SPDX-FileCopyrightText: 2019-Present Contributors to FluffyChat
-
-SPDX-License-Identifier: AGPL-3.0-or-later
--->
-
-![Screenshot](https://github.com/krille-chan/fluffychat/blob/main/assets/banner_transparent.png?raw=true)
-
-[FluffyChat](https://fluffy.chat) is an open source, nonprofit and cute [[matrix](https://matrix.org)] client written in [Flutter](https://flutter.dev). The goal of the app is to create an easy to use instant messenger which is open source and accessible for everyone.
-
-### Links:
-
-- 🌐 [[Weblate] Translate FluffyChat into your language](https://hosted.weblate.org/projects/fluffychat/)
-- 🌍 [[m] Join the community](https://matrix.to/#/#fluffy-space:matrix.org)
-- 📰 [[Mastodon] Get updates on social media](https://troet.cafe/@krille)
-- 💝 [[Liberapay] Support FluffyChat development](https://de.liberapay.com/KrilleChritzelius)
-
-<a href='https://ko-fi.com/C1C86VN53' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi5.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
-
-### Screenshots:
-
-<img src="https://github.com/krille-chan/fluffychat-website/blob/main/src/assets/screenshots/mobile.png?raw=true" height="300">
-<img src="https://github.com/krille-chan/fluffychat-website/blob/main/src/assets/screenshots/desktop.png?raw=true" height="300">
-
-# Features
-
-- 📩 Send all kinds of messages, images and files
-- 🎙️ Voice messages
-- 📍 Location sharing
-- 🔔 Push notifications
-- 💬 Unlimited private and public group chats
-- 📣 Public channels with thousands of participants
-- 🛠️ Feature rich group moderation including all matrix features
-- 🔍 Discover and join public groups
-- 🌙 Dark mode
-- 🎨 Material You design
-- 📟 Hides complexity of Matrix IDs behind simple QR codes
-- 😄 Custom emotes and stickers
-- 🌌 Spaces
-- 🔄 Compatible with Element, Nheko, NeoChat and all other Matrix apps
-- 🔐 End to end encryption
-- 🔒 Encrypted chat backup
-- 😀 Emoji verification & cross signing
-
-... and much more.
-
-
-# Installation
-
-Please visit the website for installation instructions:
-
-- https://fluffy.chat
-
-# How to build
-
-1. To build FluffyChat you need [Flutter](https://flutter.dev) and [Rust](https://www.rust-lang.org/tools/install)
-
-2. Clone the repo:
-```
-git clone https://github.com/krille-chan/fluffychat.git
-cd fluffychat
-```
-3. Choose your target platform below and enable support for it.
-3.1 If you want, enable Googles Firebase Cloud Messaging:
-
-`./scripts/add-firebase-messaging.sh`
-
-4. Debug with: `flutter run`
-
-### Android
-
-* Build with: `flutter build apk`
-
-### iOS / iPadOS
-
-* Have a Mac with Xcode installed, and set up for Xcode-managed app signing
-* If you want automatic app installation to connected devices, make sure you have Apple Configurator installed, with the Automation Tools (`cfgutil`) enabled
-* Set a few environment variables
-    * FLUFFYCHAT_NEW_TEAM: the Apple Developer team that your certificates should live under
-    * FLUFFYCHAT_NEW_GROUP: the group you want App IDs and such to live under (ie: com.example.fluffychat)
-    * FLUFFYCHAT_INSTALL_IPA: set to `1` if you want the IPA to be deployed to connected devices after building, otherwise unset
-* Run `./scripts/build-ios.sh`
-
-### Web
-
-* Build with:
-```bash
-./scripts/prepare-web.sh # To install Vodozemac
-flutter build web --release
-```
-
-* Optionally configure by serving a `config.json` at the same path as fluffychat.
-  An example can be found at `config.sample.json`. All values there are optional.
-  **Please only the values, you really need**. If you e.g. only want
-  to change the default homeserver, then only modify the `defaultHomeserver` key.
-
-### Desktop (Linux, Windows, macOS)
-
-* Enable Desktop support in Flutter: https://flutter.dev/desktop
-
-#### Install custom dependencies (Linux)
-
-```bash
-sudo apt install libjsoncpp1 libsecret-1-dev libsecret-1-0 librhash0 libwebkit2gtk-4.0-dev lld
-```
-
-* Build with one of these:
-```bash
-flutter build linux --release
-flutter build windows --release
-flutter build macos --release
-```
-
-## How to run integration tests
-
-You need to have docker installed locally! Run the preparation script before every test run:
-
-```sh
-./scripts/prepare_integration_test.sh
-```
-
-Then run all tests with:
-
-```sh
-flutter test integration_test/mobile_test.dart
-```
-
-
-# Special thanks
-
-* <a href="https://github.com/fabiyamada">Fabiyamada</a> is a graphics designer and has made the fluffychat logo and the banner. Big thanks for her great designs.
-
-* <a href="https://github.com/advocatux">Advocatux</a> has made the Spanish translation with great love and care. He always stands by my side and supports my work with great commitment.
-
-* Thanks to MTRNord and Sorunome for developing.
-
-* Also thanks to all translators and testers! With your help, fluffychat is now available in more than 12 languages.
-
-* <a href="https://github.com/madsrh/WoodenBeaver">WoodenBeaver</a> sound theme for the notification sound.
-
-* The Matrix Foundation for making and maintaining the [emoji translations](https://github.com/matrix-org/matrix-spec/blob/main/data-definitions/sas-emoji.json) used for emoji verification, licensed Apache 2.0
+FluffyChat for Persians
+An unofficial fork of FluffyChat
+with proper bidirectional (RTL/LTR) text rendering.
+This is not the official FluffyChat. It is not affiliated with or
+endorsed by the FluffyChat project or its maintainers. Please do not
+report bugs from this build to the upstream project.
+فارسی
+فلافی‌چت یک کلاینت متن‌باز و امن برای شبکه Matrix است. اما در نمایش
+جمله‌هایی که فارسی و انگلیسی را با هم ترکیب می‌کنند مشکل دارد و ترتیب
+کلمات به هم می‌ریزد.
+برای مثال جمله زیر در نسخه رسمی درست نمایش داده نمی‌شود:
+برای telegram اپدیت منتشر شده
+این فورک دقیقاً همین یک مشکل را حل می‌کند. تمام قابلیت‌های دیگر
+دست‌نخورده باقی مانده‌اند.
+تفاوت با نسخه رسمی
+جهت هر پیام از روی خود متن تشخیص داده می‌شود، نه از زبان برنامه
+حباب پیام‌ها، کادر تایپ و پیش‌نمایش ریپلای هر سه اصلاح شده‌اند
+نام، آیکون و شناسه بسته تغییر کرده تا در کنار نسخه رسمی نصب شود
+دانلود
+فایل APK را از بخش Releases بگیرید.
+هنگام نصب، اندروید هشدار می‌دهد که منبع برنامه ناشناس است. این برای
+همه برنامه‌هایی که خارج از Google Play نصب می‌شوند طبیعی است.
+English
+What is different from upstream
+Messages that mix a right-to-left script (Persian, Arabic, Hebrew) with
+latin words are reordered by the Unicode bidi algorithm, because Flutter
+derives the base paragraph direction from Directionality.of(context) —
+which follows the app locale rather than the message.
+This fork detects the base direction from the message content itself,
+following UAX #9 rules P2/P3: the first strong character wins, neutral
+characters are skipped, and anything inside a bidi isolate is ignored.
+Applied in three places:
+File
+What it fixes
+lib/utils/text_direction_extension.dart
+New — the detection logic
+lib/pages/chat/events/html_message.dart
+Message bubbles
+lib/pages/chat/input_bar.dart
+The composer, updated live as you type
+lib/pages/chat/events/reply_content.dart
+Reply previews
+The app name, launcher icon and application ID are also changed, so this
+build installs alongside the official app instead of replacing it.
+Nothing else is modified.
+Upstream
+The underlying bug is tracked upstream. If you want this fixed for
+everyone, support the issue there rather than relying on this fork.
+License
+FluffyChat is licensed under the AGPL-3.0-or-later, and so is this
+fork. See LICENSE.
+Original work: Copyright © Christian Kußowski and contributors to
+FluffyChat. This is a modified version; the changes described above were
+made by the maintainer of this repository.
+The FluffyChat name and logo belong to the upstream project and are not
+used by this build.
