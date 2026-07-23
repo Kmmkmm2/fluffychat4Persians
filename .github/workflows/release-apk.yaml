@@ -6,7 +6,7 @@ on:
       tag:
         description: 'Version tag for the release (e.g. v1.0.0)'
         required: true
-        default: 'v2.8.0'
+        default: 'v1.0.0'
 
 permissions:
   contents: write
@@ -48,10 +48,12 @@ jobs:
       - name: Generate launcher icons
         run: dart run flutter_launcher_icons
 
-      # --split-per-abi produces one small APK per CPU architecture
-      # instead of a single fat APK containing all of them.
-      - name: Build release APKs
-        run: flutter build apk --release --split-per-abi
+      # NOTE: --split-per-abi cannot be used here. The project pins
+      # ndk abiFilters in android/app/build.gradle.kts as a workaround for
+      # flutter issue #162153, and Gradle rejects abiFilters and abi splits
+      # being configured at the same time.
+      - name: Build release APK
+        run: flutter build apk --release
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
@@ -59,4 +61,4 @@ jobs:
           tag_name: ${{ inputs.tag }}
           name: ${{ inputs.tag }}
           generate_release_notes: true
-          files: build/app/outputs/flutter-apk/app-*-release.apk
+          files: build/app/outputs/flutter-apk/app-release.apk
